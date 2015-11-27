@@ -47,3 +47,14 @@ docker \
   --restart=always
   gyuha/nginx-php-fpm;
 ```
+
+## Docker build
+```
+docker build -t nginx-php-fpm .
+```
+
+without cache
+```
+docker build -t nginx-php-fpm --no-cache .
+```
+
