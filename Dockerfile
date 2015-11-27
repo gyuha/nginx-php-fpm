@@ -17,7 +17,7 @@ nginx=stable && \
 add-apt-repository ppa:nginx/$nginx && \
 apt-get update && \
 apt-get upgrade -y && \
-BUILD_PACKAGES="supervisor nginx php5-fpm php5-mysql php-apc php5-curl php5-gd php5-intl php5-mcrypt php5-memcache php5-memcached php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-pgsql php5-mongo pwgen php5-redis php5-sybase php5-odbc freetds-common php5-json" && \
+BUILD_PACKAGES="nginx php5-fpm php5-mysql php-apc php5-curl php5-gd php5-intl php5-mcrypt php5-memcache php5-memcached php5-sqlite php5-tidy php5-xmlrpc php5-xsl php5-pgsql php5-mongo pwgen php5-redis php5-sybase php5-odbc freetds-common php5-json" && \
 apt-get -y --force-yes install $BUILD_PACKAGES && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
@@ -49,16 +49,17 @@ sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" /etc/php5/fpm/
 # nginx site conf
 RUN rm -Rf /etc/nginx/conf.d/* && \
 rm -Rf /etc/nginx/sites-available/default && \
-mkdir -p /etc/nginx/ssl/
+mkdir -p /etc/nginx/ssl
 ADD ./nginx-site.conf /etc/nginx/sites-available/default.conf
-RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
-
-# Start Supervisord
-ADD ./start.sh /start.sh
-RUN chmod 755 /start.sh
+RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
+mkdir -p /opt/wwwroot
 
 # Setup Volume
-VOLUME ["/usr/share/nginx/html", "/etc/nginx/conf.d", "/etc/nginx/sites-enabled", "/etc/nginx/ssl"]
+VOLUME ["/opt/wwwroot", "/etc/nginx/ssl"]
+
+# Start System
+ADD ./start.sh /start.sh
+RUN chmod 755 /start.sh
 
 # Expose Ports
 EXPOSE 443
