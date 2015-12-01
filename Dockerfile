@@ -50,8 +50,12 @@ sed -i -e "s/pm.max_spare_servers = 3/pm.max_spare_servers = 4/g" /etc/php5/fpm/
 RUN rm -Rf /etc/nginx/conf.d/* && \
 rm -Rf /etc/nginx/sites-available/default && \
 mkdir -p /etc/nginx/ssl
+
 ADD ./nginx-site.conf /etc/nginx/sites-available/default.conf
-RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
+RUN ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
+
+# make wwwroot
+RUN mkdir -p /opt && \
 mkdir -p /opt/wwwroot
 
 # Setup Volume
