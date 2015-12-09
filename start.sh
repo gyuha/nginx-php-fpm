@@ -18,5 +18,5 @@ if [ ! -z "$NGINX_SSL_PATH" ]; then
 	sed -i -e "s/#ssl_certificate_key\s*.*;/ssl_certificate_key $NGINX_SSL_CERTIFICATE_KEY;/" /etc/nginx/sites-available/default.conf
 fi
 
-php5-fpm --allow-to-run-as-root --nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf &
-exec nginx
+# Start supervisord and services
+/usr/bin/supervisord -n -c /etc/supervisord.conf
