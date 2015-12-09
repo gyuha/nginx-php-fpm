@@ -1,5 +1,5 @@
 FROM ubuntu:14.04.3
-MAINTAINER Gyuha Shing <gyuha@gmail.com>
+MAINTAINER Gyuha Shin <gyuha@gmail.com>
 
 # Keep upstart from complaining
 RUN dpkg-divert --local --rename --add /sbin/initctl
@@ -51,6 +51,10 @@ RUN rm -Rf /etc/nginx/conf.d/* && \
 rm -Rf /etc/nginx/sites-available/default && \
 mkdir -p /etc/nginx/ssl
 
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+ln -sf /dev/stderr /var/log/nginx/error.log
+
 ADD ./nginx-site.conf /etc/nginx/sites-available/default.conf
 RUN ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
 
@@ -66,7 +70,7 @@ ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
 # Expose Ports
-EXPOSE 443
-EXPOSE 80
+EXPOSE 80 443
 
 CMD ["/bin/bash", "/start.sh"]
+#CMD ["nginx", "-g", "daemon off;"]

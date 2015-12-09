@@ -26,7 +26,7 @@ docker \
   --name nginx-php-fpm \
   --publish 80:80 \
   --publish 433:433 \
-  --restart=always
+  --restart=always \
   gyuha/nginx-php-fpm;
 ```
 
@@ -44,7 +44,7 @@ docker \
   --name nginx-php-fpm \
   --publish 80:80 \
   --publish 433:433 \
-  --restart=always
+  --restart=always \
   gyuha/nginx-php-fpm;
 ```
 
