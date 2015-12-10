@@ -31,7 +31,7 @@ rm -rf /usr/share/man/??_*
 # Tweak nginx config
 # NOTE: daemon off : To run in foreground
 RUN sed -i -e"s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf && \
-sed -i -e"s/keepalive_timeout\s*65;/keepalive_timeout 65;\n\tclient_max_body_size 100m/" /etc/nginx/nginx.conf && \
+sed -i -e"s/keepalive_timeout\s*65;/keepalive_timeout 65;\n\tclient_max_body_size 100m;/" /etc/nginx/nginx.conf && \
 echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Tweak php-fpm config
@@ -64,6 +64,9 @@ mkdir -p /opt/wwwroot
 
 # Setup Volume
 VOLUME ["/opt/wwwroot", "/etc/nginx/ssl"]
+
+# Supervisor Config
+ADD ./supervisord.conf /etc/supervisord.conf
 
 # Start System
 ADD ./start.sh /start.sh
