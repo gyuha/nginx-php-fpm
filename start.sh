@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -z "$NGINX_APP_PATH" ]; then
-	sed -i -e "s|\/opt\/wwwroot|$NGINX_APP_PATH|g" /etc/nginx/sites-available/default.conf
+	sed -i -e "s|\/opt\/wwwroot;|$NGINX_APP_PATH;|g" /etc/nginx/sites-available/default.conf
 fi
 
 if [ ! -z "$NGINX_SERVER_NAME" ]; then
