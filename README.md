@@ -1,8 +1,13 @@
 # Ngnix & PHP-fpm
 
+## Docker 설치하기
+```
+wget -qO- https://get.docker.com/ | sh
+```
+
 ## 이미지 받기
 ```
-docker pull gyuha/nginx-php-fpm:lastest
+docker pull gyuha/nginx-php-fpm
 ```
 
 ## 환경변수 설정 하기
@@ -58,3 +63,8 @@ without cache
 docker build -t nginx-php-fpm --no-cache .
 ```
 
+
+## 실행중인 이미지의 쉘 실행하기
+```
+docker exec -i -t [container-id] /bin/bash
+```
