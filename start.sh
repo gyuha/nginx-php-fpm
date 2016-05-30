@@ -15,4 +15,4 @@ if [ ! -z "$NGINX_SSL_PATH" ]; then
 fi
 
 # Start supervisord and services
-/usr/bin/supervisord -n -c /etc/supervisord.conf
+/usr/bin/supervisord
