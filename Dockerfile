@@ -8,8 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ADD provision.sh /provision.sh
 ADD start.sh /start.sh
 
-ADD ./nginx-site.conf /etc/nginx/sites-available/default.conf
-RUN ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
+ADD ./nginx-site.conf /tmp/nginx-site.conf
 
 ADD supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
