@@ -21,6 +21,8 @@ apt-get install -y sudo software-properties-common nano curl \
 build-essential dos2unix gcc git git-flow libmcrypt4 libpcre3-dev apt-utils \
 make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim zip unzip
 
+cp -f /tmp/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
+
 # PPA
 apt-add-repository ppa:ondrej/php -y
 
@@ -84,7 +86,7 @@ echo "xdebug.max_nesting_level = 500" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 # Not xdebug when on cli
 phpdismod -s cli xdebug
 
-cp /tmp/nginx.conf /etc/nginx/sites-available/default.conf
+cp -f /tmp/nginx.conf /etc/nginx/sites-available/default.conf
 ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
 
 # Set The Nginx & PHP-FPM User
