@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# Update Package List
-apt-get update
-apt-get upgrade -y
-
 # Force Locale
 echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 locale-gen en_US.UTF-8
@@ -16,18 +12,9 @@ sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_co
 sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config
 sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
 
-# Basic packages
-apt-get install -y sudo software-properties-common nano curl \
-build-essential dos2unix gcc git git-flow libmcrypt4 libpcre3-dev apt-utils \
-make python2.7-dev python-pip re2c supervisor unattended-upgrades whois vim zip unzip
 
 cp -f /tmp/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-# PPA
-apt-add-repository ppa:ondrej/php -y
-
-# Update Package Lists
-apt-get update
 
 # Create homestead user
 adduser homestead
@@ -40,22 +27,8 @@ usermod -aG www-data homestead
 #ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
-# PHP
-apt-get install -y php php-dev php-cli php-common php-curl php-gd \
-php-gmp php-json php-ldap php-mysql php-odbc php-pspell php-readline \
-php-recode php-sqlite3 php-tidy php-xml php-xmlrpc php-bcmath php-bz2 \
-php-enchant php-fpm php-imap php-interbase php-intl php-mbstring \
-php-mcrypt php-phpdbg php-soap php-sybase php-xsl php-zip php-imagick \
-php-redis php-apcu php-pear php-mongodb php-xdebug php-memcached php-pgsql
-# Nginx & PHP-FPM
-apt-get install -y nginx php-fpm
-
 # Enable mcrypt
 phpenmod mcrypt
-
-# Install Composer
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
 
 # Add Composer Global Bin To Path
 printf "\nPATH=\"/home/homestead/.composer/vendor/bin:\$PATH\"\n" | tee -a /home/homestead/.profile
@@ -86,7 +59,7 @@ echo "xdebug.max_nesting_level = 500" >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 # Not xdebug when on cli
 phpdismod -s cli xdebug
 
-cp -f /tmp/nginx.conf /etc/nginx/sites-available/default.conf
+cp -f /tmp/nginx-site.conf /etc/nginx/sites-available/default.conf
 ln -sf /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default
 
 # Set The Nginx & PHP-FPM User
@@ -101,21 +74,4 @@ sed -i "s/group = www-data/group = homestead/" /etc/php/7.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.owner.*/listen.owner = homestead/" /etc/php/7.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.group.*/listen.group = homestead/" /etc/php/7.0/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
-
-# Install Node
-curl --silent --location https://deb.nodesource.com/setup_6.x | bash -
-apt-get install -y nodejs
-npm install -g grunt-cli
-npm install -g gulp
-npm install -g bower
-
-# Install SQLite
-apt-get install -y sqlite3 libsqlite3-dev
-
-# Memcached
-apt-get install -y memcached
-
-# Redis
-apt-get install -y redis-server
-sed -i "s/daemonize yes/daemonize no/" /etc/redis/redis.conf
 
